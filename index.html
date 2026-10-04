@@ -1,0 +1,3829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MyBlog - Smart Blogging Platform</title>
+
+
+    <style>
+
+        /* =====================================================
+           GENERAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f5f6fa;
+            color: #222;
+            line-height: 1.6;
+            transition: 0.3s;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        nav {
+            background: #222;
+            color: white;
+            padding: 15px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00b894;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: #00b894;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .theme-btn,
+        .saved-nav-btn {
+            border: none;
+            padding: 9px 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            background: #00b894;
+        }
+
+        .saved-nav-btn:hover,
+        .theme-btn:hover {
+            background: #019875;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+            background: linear-gradient(
+                135deg,
+                #00b894,
+                #0984e3
+            );
+
+            color: white;
+
+            text-align: center;
+
+            padding: 85px 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 28px;
+        }
+
+        .hero button {
+            padding: 13px 28px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: white;
+
+            color: #0984e3;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background: #222;
+            color: white;
+        }
+
+
+        /* =====================================================
+           BLOG OF THE DAY
+        ===================================================== */
+
+        .daily-blog {
+            width: 86%;
+            max-width: 1100px;
+
+            margin: 40px auto;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #0984e3
+                );
+
+            color: white;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.15);
+
+            text-align: center;
+        }
+
+        .daily-label {
+            display: inline-block;
+
+            background: rgba(255,255,255,0.2);
+
+            padding: 6px 15px;
+
+            border-radius: 20px;
+
+            margin-bottom: 12px;
+        }
+
+        .daily-blog h2 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .daily-blog p {
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        .daily-blog button {
+            padding: 10px 20px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            background: white;
+
+            color: #0984e3;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           STATISTICS
+        ===================================================== */
+
+        .stats {
+            width: 86%;
+            max-width: 1100px;
+
+            margin: 40px auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: white;
+
+            padding: 25px;
+
+            text-align: center;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .stat-box h2 {
+            color: #0984e3;
+
+            font-size: 30px;
+        }
+
+        .stat-box p {
+            color: #666;
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        .search-section {
+            padding: 20px 7%;
+
+            text-align: center;
+        }
+
+        .search-section input {
+            width: 70%;
+            max-width: 650px;
+
+            padding: 14px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        .search-section input:focus {
+            border-color: #0984e3;
+        }
+
+
+        /* =====================================================
+           CATEGORY FILTER
+        ===================================================== */
+
+        .category-filter {
+            width: 86%;
+            max-width: 1200px;
+
+            margin: 10px auto 35px;
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+        .category-filter button {
+            background: white;
+
+            color: #0984e3;
+
+            border: 1px solid #0984e3;
+
+            padding: 9px 15px;
+
+            border-radius: 25px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .category-filter button:hover,
+        .category-filter button.active {
+            background: #0984e3;
+            color: white;
+        }
+
+
+        /* =====================================================
+           SECTION TITLE
+        ===================================================== */
+
+        .section-title {
+            text-align: center;
+
+            margin: 25px 0 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+
+        /* =====================================================
+           BLOG GRID
+        ===================================================== */
+
+        .container {
+            width: 86%;
+            max-width: 1200px;
+
+            margin: auto;
+        }
+
+        .blog-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+
+            padding-bottom: 50px;
+        }
+
+
+        /* =====================================================
+           BLOG CARD
+        ===================================================== */
+
+        .blog-card {
+            background: white;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.1);
+
+            transition: 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .blog-image {
+            height: 180px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        /* CATEGORY COLORS */
+
+        .technology {
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #00cec9
+                );
+        }
+
+        .travel {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff7675,
+                    #0984e3
+                );
+        }
+
+        .education {
+            background:
+                linear-gradient(
+                    135deg,
+                    #00b894,
+                    #0984e3
+                );
+        }
+
+        .lifestyle {
+            background:
+                linear-gradient(
+                    135deg,
+                    #fd79a8,
+                    #6c5ce7
+                );
+        }
+
+        .food {
+            background:
+                linear-gradient(
+                    135deg,
+                    #e17055,
+                    #fdcb6e
+                );
+        }
+
+        .health {
+            background:
+                linear-gradient(
+                    135deg,
+                    #00b894,
+                    #55efc4
+                );
+        }
+
+        .business {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2d3436,
+                    #0984e3
+                );
+        }
+
+        .entertainment {
+            background:
+                linear-gradient(
+                    135deg,
+                    #a29bfe,
+                    #e84393
+                );
+        }
+
+        .sports {
+            background:
+                linear-gradient(
+                    135deg,
+                    #00b894,
+                    #00cec9
+                );
+        }
+
+        .photography {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2d3436,
+                    #6c5ce7
+                );
+        }
+
+
+        .blog-content {
+            padding: 20px;
+        }
+
+        .category {
+            display: inline-block;
+
+            background: #dff9fb;
+
+            color: #0984e3;
+
+            padding: 4px 10px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            margin-bottom: 10px;
+        }
+
+        .blog-content h3 {
+            font-size: 21px;
+
+            margin-bottom: 10px;
+        }
+
+        .blog-content p {
+            color: #666;
+
+            margin-bottom: 15px;
+        }
+
+        .blog-meta {
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 15px;
+        }
+
+        .blog-actions {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .read-more {
+            background: #0984e3;
+
+            color: white;
+
+            border: none;
+
+            padding: 9px 15px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        .read-more:hover {
+            background: #0767b1;
+        }
+
+        .like-btn,
+        .save-btn {
+            background: none;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 20px;
+
+            margin-left: 8px;
+        }
+
+        .liked {
+            color: #e84393;
+        }
+
+        .saved {
+            color: #0984e3;
+        }
+
+
+        /* =====================================================
+           AUTHOR PROFILE
+        ===================================================== */
+
+        .author-section {
+            width: 86%;
+            max-width: 1000px;
+
+            margin: 40px auto 60px;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        .author-avatar {
+            width: 110px;
+            height: 110px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #00b894,
+                    #0984e3
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 42px;
+
+            font-weight: bold;
+        }
+
+        .author-info h2 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #666;
+        }
+
+
+        /* =====================================================
+           SAVED BLOGS
+        ===================================================== */
+
+        #savedSection {
+            display: none;
+
+            padding: 30px 0 50px;
+        }
+
+
+        /* =====================================================
+           ADD BLOG
+        ===================================================== */
+
+        .add-post {
+            background: white;
+
+            width: 86%;
+            max-width: 800px;
+
+            margin: 30px auto 60px;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .add-post h2 {
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+        .add-post input,
+        .add-post textarea,
+        .add-post select {
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 15px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+
+            font-size: 15px;
+        }
+
+        .add-post textarea {
+            height: 130px;
+
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+
+            padding: 12px;
+
+            background: #00b894;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background: #019875;
+        }
+
+
+        /* =====================================================
+           ABOUT
+        ===================================================== */
+
+        .about {
+            background: #222;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 60px 20px;
+        }
+
+        .about h2 {
+            color: #00b894;
+
+            margin-bottom: 15px;
+        }
+
+        .about p {
+            max-width: 700px;
+
+            margin: auto;
+
+            color: #ddd;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            background: #111;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 20px;
+        }
+
+
+        /* =====================================================
+           BLOG MODAL
+        ===================================================== */
+
+        .modal {
+            display: none;
+
+            position: fixed;
+
+            z-index: 2000;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background:
+                rgba(0,0,0,0.75);
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+
+            width: 90%;
+
+            max-width: 750px;
+
+            max-height: 85vh;
+
+            overflow-y: auto;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            position: relative;
+
+            animation: popup 0.3s ease;
+        }
+
+        @keyframes popup {
+
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+
+        .close-btn {
+            position: absolute;
+
+            top: 10px;
+            right: 18px;
+
+            font-size: 30px;
+
+            border: none;
+
+            background: none;
+
+            cursor: pointer;
+
+            color: #555;
+        }
+
+        .modal-content h2 {
+            color: #0984e3;
+
+            margin-bottom: 5px;
+        }
+
+        .modal-category {
+            color: #00b894;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            color: #444;
+
+            line-height: 1.8;
+
+            font-size: 17px;
+
+            white-space: pre-line;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-stats {
+            display: flex;
+
+            gap: 20px;
+
+            padding: 15px 0;
+
+            border-top: 1px solid #ddd;
+
+            border-bottom: 1px solid #ddd;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-action {
+            padding: 9px 15px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            background: #0984e3;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           COMMENTS
+        ===================================================== */
+
+        .comments-section {
+            margin-top: 25px;
+        }
+
+        .comments-section h3 {
+            margin-bottom: 15px;
+        }
+
+        .comment-form {
+            display: flex;
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        .comment-form input {
+            flex: 1;
+
+            padding: 11px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+        }
+
+        .comment-form button {
+            padding: 10px 15px;
+
+            background: #00b894;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        .comment {
+            background: #f5f6fa;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 10px;
+        }
+
+        .comment strong {
+            color: #0984e3;
+        }
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        .toast {
+            position: fixed;
+
+            bottom: 25px;
+
+            right: 25px;
+
+            background: #222;
+
+            color: white;
+
+            padding: 13px 20px;
+
+            border-radius: 7px;
+
+            opacity: 0;
+
+            transform: translateY(20px);
+
+            pointer-events: none;
+
+            transition: 0.3s;
+
+            z-index: 3000;
+        }
+
+        .toast.show {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        /* =====================================================
+           DARK MODE
+        ===================================================== */
+
+        body.dark {
+            background: #121212;
+
+            color: white;
+        }
+
+        body.dark .stat-box,
+        body.dark .blog-card,
+        body.dark .author-section,
+        body.dark .add-post,
+        body.dark .modal-content {
+            background: #1e1e1e;
+        }
+
+        body.dark .section-title p,
+        body.dark .blog-content p,
+        body.dark .author-info p {
+            color: #bbb;
+        }
+
+        body.dark .search-section input,
+        body.dark .add-post input,
+        body.dark .add-post textarea,
+        body.dark .add-post select,
+        body.dark .comment-form input {
+            background: #2b2b2b;
+
+            color: white;
+
+            border-color: #555;
+        }
+
+        body.dark .category-filter button {
+            background: #1e1e1e;
+
+            color: #00b894;
+
+            border-color: #00b894;
+        }
+
+        body.dark .category-filter button:hover,
+        body.dark .category-filter button.active {
+            background: #00b894;
+
+            color: white;
+        }
+
+        body.dark .modal-text {
+            color: #ddd;
+        }
+
+        body.dark .comment {
+            background: #2b2b2b;
+        }
+
+        body.dark .stat-box p {
+            color: #bbb;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .blog-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 12px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .search-section input {
+                width: 90%;
+            }
+
+            .author-section {
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+            .comment-form {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav>
+
+    <div class="logo">
+        MyBlog
+    </div>
+
+
+    <ul>
+
+        <li>
+            <a href="#home">Home</a>
+        </li>
+
+        <li>
+            <a href="#blogs">Blogs</a>
+        </li>
+
+        <li>
+            <a href="#add">Add Blog</a>
+        </li>
+
+        <li>
+            <a href="#about">About</a>
+        </li>
+
+    </ul>
+
+
+    <div class="nav-buttons">
+
+        <button
+            class="saved-nav-btn"
+            onclick="showSavedBlogs()">
+
+            🔖 Saved
+
+        </button>
+
+        <button
+            class="theme-btn"
+            onclick="toggleTheme()">
+
+            🌙 Theme
+
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     HOME / HERO
+===================================================== -->
+
+<section
+    class="hero"
+    id="home">
+
+    <h1>
+        Welcome to MyBlog
+    </h1>
+
+    <p>
+        Read, Write and Share Your Ideas with the World
+    </p>
+
+    <button onclick="scrollToBlogs()">
+
+        Explore Blogs
+
+    </button>
+
+</section>
+
+
+
+<!-- =====================================================
+     BLOG OF THE DAY
+===================================================== -->
+
+<section class="daily-blog">
+
+    <span class="daily-label">
+        ⭐ BLOG OF THE DAY
+    </span>
+
+    <h2 id="dailyTitle">
+        Artificial Intelligence in Daily Life
+    </h2>
+
+    <p id="dailyDescription">
+        Discover how artificial intelligence is changing
+        the way people learn, work and communicate.
+    </p>
+
+    <button onclick="openDailyBlog()">
+
+        Read Article →
+
+    </button>
+
+</section>
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="stats">
+
+    <div class="stat-box">
+
+        <h2 id="totalBlogs">
+            10+
+        </h2>
+
+        <p>
+            Blog Posts
+        </p>
+
+    </div>
+
+
+    <div class="stat-box">
+
+        <h2>
+            10
+        </h2>
+
+        <p>
+            Categories
+        </p>
+
+    </div>
+
+
+    <div class="stat-box">
+
+        <h2 id="totalViews">
+            0
+        </h2>
+
+        <p>
+            Total Views
+        </p>
+
+    </div>
+
+
+    <div class="stat-box">
+
+        <h2>
+            ∞
+        </h2>
+
+        <p>
+            Ideas Shared
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<section class="search-section">
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="🔎 Search blogs..."
+        onkeyup="searchBlogs()">
+
+</section>
+
+
+
+<!-- =====================================================
+     CATEGORY FILTER
+===================================================== -->
+
+<div class="category-filter">
+
+    <button
+        class="active"
+        onclick="filterCategory('All', this)">
+        All
+    </button>
+
+    <button onclick="filterCategory('Technology', this)">
+        Technology
+    </button>
+
+    <button onclick="filterCategory('Travel', this)">
+        Travel
+    </button>
+
+    <button onclick="filterCategory('Education', this)">
+        Education
+    </button>
+
+    <button onclick="filterCategory('Lifestyle', this)">
+        Lifestyle
+    </button>
+
+    <button onclick="filterCategory('Food & Cooking', this)">
+        Food & Cooking
+    </button>
+
+    <button onclick="filterCategory('Health & Fitness', this)">
+        Health & Fitness
+    </button>
+
+    <button onclick="filterCategory('Business', this)">
+        Business
+    </button>
+
+    <button onclick="filterCategory('Entertainment', this)">
+        Entertainment
+    </button>
+
+    <button onclick="filterCategory('Sports', this)">
+        Sports
+    </button>
+
+    <button onclick="filterCategory('Photography', this)">
+        Photography
+    </button>
+
+</div>
+
+
+
+<!-- =====================================================
+     LATEST BLOGS
+===================================================== -->
+
+<section id="blogs">
+
+    <div class="section-title">
+
+        <h2>
+            🔥 Latest Blogs
+        </h2>
+
+        <p>
+            Explore interesting articles and stories
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+        <div
+            class="blog-container"
+            id="blogContainer">
+
+
+            <!-- TECHNOLOGY -->
+
+            <div
+                class="blog-card"
+                data-category="Technology"
+                data-id="tech1">
+
+                <div class="blog-image technology">
+                    Technology
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Technology
+                    </span>
+
+                    <h3>
+                        Future of Technology
+                    </h3>
+
+                    <p>
+                        Technology is changing the way we live,
+                        work and communicate with each other.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 3 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'tech1',
+                            'Future of Technology',
+                            'Technology',
+                            'Technology is changing the way we live, work and communicate. Modern technologies such as Artificial Intelligence, cloud computing and smart devices are making everyday tasks easier. The future of technology will focus on creating faster, smarter and more useful solutions for people.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'tech1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'tech1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TRAVEL -->
+
+            <div
+                class="blog-card"
+                data-category="Travel"
+                data-id="travel1">
+
+                <div class="blog-image travel">
+                    Travel
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Travel
+                    </span>
+
+                    <h3>
+                        Beautiful Places to Visit
+                    </h3>
+
+                    <p>
+                        Traveling helps us explore new places,
+                        cultures and experiences.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 4 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'travel1',
+                            'Beautiful Places to Visit',
+                            'Travel',
+                            'Traveling gives us an opportunity to explore new places, meet different people and experience different cultures. Mountains, beaches, historical locations and beautiful cities provide unforgettable experiences. Traveling also helps us understand different traditions and lifestyles.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'travel1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'travel1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EDUCATION -->
+
+            <div
+                class="blog-card"
+                data-category="Education"
+                data-id="edu1">
+
+                <div class="blog-image education">
+                    Education
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Education
+                    </span>
+
+                    <h3>
+                        Importance of Education
+                    </h3>
+
+                    <p>
+                        Education gives us knowledge, skills
+                        and confidence to build a better future.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 3 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'edu1',
+                            'Importance of Education',
+                            'Education',
+                            'Education provides knowledge, develops skills and helps people understand the world. It plays an important role in building confidence and creating opportunities. Effective learning requires regular practice, understanding concepts and developing good study habits.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'edu1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'edu1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LIFESTYLE -->
+
+            <div
+                class="blog-card"
+                data-category="Lifestyle"
+                data-id="life1">
+
+                <div class="blog-image lifestyle">
+                    Lifestyle
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Lifestyle
+                    </span>
+
+                    <h3>
+                        Building a Productive Routine
+                    </h3>
+
+                    <p>
+                        A simple daily routine can help us
+                        organize our time and achieve our goals.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 3 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'life1',
+                            'Building a Productive Routine',
+                            'Lifestyle',
+                            'A productive routine can help us organize our day. Planning important tasks, taking regular breaks and maintaining a healthy balance between work and personal activities can improve productivity. Small consistent habits can create meaningful changes over time.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'life1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'life1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FOOD -->
+
+            <div
+                class="blog-card"
+                data-category="Food & Cooking"
+                data-id="food1">
+
+                <div class="blog-image food">
+                    Food & Cooking
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Food & Cooking
+                    </span>
+
+                    <h3>
+                        Art of Home Cooking
+                    </h3>
+
+                    <p>
+                        Home cooking allows us to explore flavors
+                        and create delicious meals.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 3 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'food1',
+                            'Art of Home Cooking',
+                            'Food & Cooking',
+                            'Cooking at home is a creative and enjoyable activity. It allows us to experiment with ingredients, discover new recipes and prepare meals according to our preferences. Learning basic cooking skills can also make everyday life easier.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'food1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'food1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- HEALTH -->
+
+            <div
+                class="blog-card"
+                data-category="Health & Fitness"
+                data-id="health1">
+
+                <div class="blog-image health">
+                    Health & Fitness
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Health & Fitness
+                    </span>
+
+                    <h3>
+                        Importance of Regular Exercise
+                    </h3>
+
+                    <p>
+                        Regular physical activity can support
+                        energy, strength and overall well-being.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 4 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'health1',
+                            'Importance of Regular Exercise',
+                            'Health & Fitness',
+                            'Regular physical activity is an important part of a healthy lifestyle. Walking, sports, strength training and other activities can support physical fitness. Combining exercise with adequate rest and balanced nutrition can help maintain overall well-being.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'health1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'health1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BUSINESS -->
+
+            <div
+                class="blog-card"
+                data-category="Business"
+                data-id="business1">
+
+                <div class="blog-image business">
+                    Business
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Business
+                    </span>
+
+                    <h3>
+                        Basics of Starting a Business
+                    </h3>
+
+                    <p>
+                        A successful business starts with a useful
+                        idea, proper planning and understanding customers.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 4 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'business1',
+                            'Basics of Starting a Business',
+                            'Business',
+                            'Starting a business requires a clear idea, proper planning and an understanding of customer needs. A business plan can help organize goals, resources, marketing strategies and financial requirements. Continuous learning is important for long-term development.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'business1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'business1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ENTERTAINMENT -->
+
+            <div
+                class="blog-card"
+                data-category="Entertainment"
+                data-id="ent1">
+
+                <div class="blog-image entertainment">
+                    Entertainment
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Entertainment
+                    </span>
+
+                    <h3>
+                        Entertainment in the Digital Age
+                    </h3>
+
+                    <p>
+                        Digital platforms have changed the way
+                        people watch movies, listen to music and play games.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 3 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'ent1',
+                            'Entertainment in the Digital Age',
+                            'Entertainment',
+                            'Digital technology has transformed entertainment. Streaming platforms, online games, social media and digital music have made entertainment more accessible. People can now discover and enjoy content from different parts of the world using connected devices.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'ent1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'ent1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SPORTS -->
+
+            <div
+                class="blog-card"
+                data-category="Sports"
+                data-id="sports1">
+
+                <div class="blog-image sports">
+                    Sports
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Sports
+                    </span>
+
+                    <h3>
+                        Importance of Sports
+                    </h3>
+
+                    <p>
+                        Sports teach discipline, teamwork and
+                        perseverance while keeping people active.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 3 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'sports1',
+                            'Importance of Sports',
+                            'Sports',
+                            'Sports are useful for physical activity and personal development. Team sports can teach communication, cooperation and discipline. Participating in sports also provides opportunities to set goals and develop perseverance.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'sports1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'sports1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PHOTOGRAPHY -->
+
+            <div
+                class="blog-card"
+                data-category="Photography"
+                data-id="photo1">
+
+                <div class="blog-image photography">
+                    Photography
+                </div>
+
+                <div class="blog-content">
+
+                    <span class="category">
+                        Photography
+                    </span>
+
+                    <h3>
+                        Storytelling Through Photography
+                    </h3>
+
+                    <p>
+                        Photography allows people to capture
+                        moments and communicate stories visually.
+                    </p>
+
+                    <div class="blog-meta">
+
+                        <span>
+                            ⏱️ 3 min read
+                        </span>
+
+                        <span>
+                            👁️ <span class="view-number">0</span>
+                        </span>
+
+                    </div>
+
+                    <div class="blog-actions">
+
+                        <button
+                            class="read-more"
+                            onclick="readBlog(
+                            'photo1',
+                            'Storytelling Through Photography',
+                            'Photography',
+                            'Photography is a powerful way of capturing moments and telling stories. Composition, lighting and timing can change the feeling of an image. Photography encourages people to observe their surroundings and preserve meaningful memories.'
+                            )">
+
+                            Read More
+
+                        </button>
+
+                        <div>
+
+                            <button
+                                class="like-btn"
+                                onclick="likeBlog(this, 'photo1')">
+
+                                ♡
+
+                            </button>
+
+                            <button
+                                class="save-btn"
+                                onclick="saveBlog(this, 'photo1')">
+
+                                🔖
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SAVED BLOGS
+===================================================== -->
+
+<section id="savedSection">
+
+    <div class="section-title">
+
+        <h2>
+            🔖 Your Saved Blogs
+        </h2>
+
+        <p>
+            Blogs you saved for later
+        </p>
+
+    </div>
+
+    <div class="container">
+
+        <div
+            class="blog-container"
+            id="savedContainer">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     AUTHOR PROFILE
+===================================================== -->
+
+<section class="author-section">
+
+    <div class="author-avatar">
+        JZ
+    </div>
+
+    <div class="author-info">
+
+        <h2>
+            Jenish Zalavadiya
+        </h2>
+
+        <p>
+            Student • Web Developer • Technology Enthusiast
+        </p>
+
+        <p>
+            Welcome to my personal blogging platform where
+            I share ideas about technology, education,
+            travel and everyday life.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CREATE NEW BLOG
+===================================================== -->
+
+<section id="add">
+
+    <div class="add-post">
+
+        <h2>
+            ✍️ Create New Blog
+        </h2>
+
+
+        <form onsubmit="addBlog(event)">
+
+            <input
+                type="text"
+                id="blogTitle"
+                placeholder="Enter blog title"
+                required>
+
+
+            <select
+                id="blogCategory"
+                required>
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Technology">
+                    Technology
+                </option>
+
+                <option value="Travel">
+                    Travel
+                </option>
+
+                <option value="Education">
+                    Education
+                </option>
+
+                <option value="Lifestyle">
+                    Lifestyle
+                </option>
+
+                <option value="Food & Cooking">
+                    Food & Cooking
+                </option>
+
+                <option value="Health & Fitness">
+                    Health & Fitness
+                </option>
+
+                <option value="Business">
+                    Business
+                </option>
+
+                <option value="Entertainment">
+                    Entertainment
+                </option>
+
+                <option value="Sports">
+                    Sports
+                </option>
+
+                <option value="Photography">
+                    Photography
+                </option>
+
+            </select>
+
+
+            <textarea
+                id="blogDescription"
+                placeholder="Write your blog..."
+                required>
+            </textarea>
+
+
+            <button
+                type="submit"
+                class="submit-btn">
+
+                Publish Blog
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section
+    class="about"
+    id="about">
+
+    <h2>
+        About MyBlog
+    </h2>
+
+    <p>
+        MyBlog is a smart blogging platform where users
+        can read, search, save, like and publish blog posts.
+        The website is developed using HTML, CSS and JavaScript.
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        © 2026 MyBlog | Built with HTML, CSS & JavaScript
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     BLOG MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="blogModal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeBlog()">
+
+            &times;
+
+        </button>
+
+
+        <h2 id="modalTitle">
+            Blog Title
+        </h2>
+
+
+        <div
+            class="modal-category"
+            id="modalCategory">
+
+            Technology
+
+        </div>
+
+
+        <div class="modal-stats">
+
+            <span>
+                ⏱️ <span id="modalReadingTime">3</span> min read
+            </span>
+
+            <span>
+                👁️ <span id="modalViews">0</span>
+            </span>
+
+            <span>
+                ❤️ <span id="modalLikes">0</span>
+            </span>
+
+        </div>
+
+
+        <p
+            class="modal-text"
+            id="modalText">
+
+            Blog content will appear here.
+
+        </p>
+
+
+        <button
+            class="modal-action"
+            id="modalLikeButton"
+            onclick="likeFromModal()">
+
+            ❤️ Like
+
+        </button>
+
+
+        <button
+            class="modal-action"
+            id="modalSaveButton"
+            onclick="saveFromModal()">
+
+            🔖 Save
+
+        </button>
+
+
+        <!-- COMMENTS -->
+
+        <div class="comments-section">
+
+            <h3>
+                💬 Comments
+            </h3>
+
+
+            <div class="comment-form">
+
+                <input
+                    type="text"
+                    id="commentInput"
+                    placeholder="Write a comment...">
+
+
+                <button
+                    onclick="addComment()">
+
+                    Post
+
+                </button>
+
+            </div>
+
+
+            <div id="commentsList">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    class="toast"
+    id="toast">
+
+    Done!
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+let savedBlogs =
+    JSON.parse(
+        localStorage.getItem("savedBlogs")
+    ) || [];
+
+let likedBlogs =
+    JSON.parse(
+        localStorage.getItem("likedBlogs")
+    ) || [];
+
+let views =
+    JSON.parse(
+        localStorage.getItem("blogViews")
+    ) || {};
+
+let comments =
+    JSON.parse(
+        localStorage.getItem("blogComments")
+    ) || {};
+
+let userBlogs =
+    JSON.parse(
+        localStorage.getItem("userBlogs")
+    ) || [];
+
+
+/* =====================================================
+   CURRENT BLOG
+===================================================== */
+
+let currentBlogId = "";
+
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    let toast =
+        document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.classList.add("show");
+
+    setTimeout(function() {
+
+        toast.classList.remove("show");
+
+    }, 2000);
+
+}
+
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleTheme() {
+
+    document.body.classList.toggle("dark");
+
+    let dark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+        "darkMode",
+        dark
+    );
+
+}
+
+
+/* Load dark mode */
+
+if (
+    localStorage.getItem("darkMode") === "true"
+) {
+
+    document.body.classList.add("dark");
+
+}
+
+
+
+/* =====================================================
+   SCROLL TO BLOGS
+===================================================== */
+
+function scrollToBlogs() {
+
+    document
+        .getElementById("blogs")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function searchBlogs() {
+
+    let input =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+
+    let cards =
+        document.querySelectorAll(
+            ".blog-card"
+        );
+
+
+    cards.forEach(function(card) {
+
+        let text =
+            card.innerText.toLowerCase();
+
+
+        if (
+            text.includes(input)
+        ) {
+
+            card.style.display =
+                "block";
+
+        } else {
+
+            card.style.display =
+                "none";
+
+        }
+
+    });
+
+}
+
+
+
+/* =====================================================
+   CATEGORY FILTER
+===================================================== */
+
+function filterCategory(
+    category,
+    button
+) {
+
+    let cards =
+        document.querySelectorAll(
+            ".blog-card"
+        );
+
+
+    document
+        .querySelectorAll(
+            ".category-filter button"
+        )
+        .forEach(function(btn) {
+
+            btn.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    if (button) {
+
+        button.classList.add(
+            "active"
+        );
+
+    }
+
+
+    cards.forEach(function(card) {
+
+        let cardCategory =
+            card.dataset.category;
+
+
+        if (
+            category === "All" ||
+            cardCategory === category
+        ) {
+
+            card.style.display =
+                "block";
+
+        } else {
+
+            card.style.display =
+                "none";
+
+        }
+
+    });
+
+}
+
+
+
+/* =====================================================
+   READ BLOG
+===================================================== */
+
+function readBlog(
+    id,
+    title,
+    category,
+    content
+) {
+
+    currentBlogId = id;
+
+
+    /* Increase view */
+
+    if (!views[id]) {
+
+        views[id] = 0;
+
+    }
+
+    views[id]++;
+
+
+    localStorage.setItem(
+        "blogViews",
+        JSON.stringify(views)
+    );
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText = title;
+
+
+    document.getElementById(
+        "modalCategory"
+    ).innerText = category;
+
+
+    document.getElementById(
+        "modalText"
+    ).innerText = content;
+
+
+    document.getElementById(
+        "modalViews"
+    ).innerText = views[id];
+
+
+    document.getElementById(
+        "modalLikes"
+    ).innerText =
+        likedBlogs.includes(id)
+        ? 1
+        : 0;
+
+
+    let words =
+        content.trim().split(/\s+/).length;
+
+
+    let readingTime =
+        Math.max(
+            1,
+            Math.ceil(words / 150)
+        );
+
+
+    document.getElementById(
+        "modalReadingTime"
+    ).innerText = readingTime;
+
+
+    loadComments(id);
+
+
+    document.getElementById(
+        "blogModal"
+    ).style.display = "flex";
+
+
+    updateViewNumbers();
+
+    updateTotalViews();
+
+}
+
+
+
+/* =====================================================
+   CLOSE BLOG
+===================================================== */
+
+function closeBlog() {
+
+    document.getElementById(
+        "blogModal"
+    ).style.display = "none";
+
+}
+
+
+
+/* =====================================================
+   CLICK OUTSIDE MODAL
+===================================================== */
+
+window.onclick = function(event) {
+
+    let modal =
+        document.getElementById(
+            "blogModal"
+        );
+
+
+    if (
+        event.target === modal
+    ) {
+
+        closeBlog();
+
+    }
+
+};
+
+
+
+/* =====================================================
+   LIKE BLOG
+===================================================== */
+
+function likeBlog(
+    button,
+    id
+) {
+
+    let index =
+        likedBlogs.indexOf(id);
+
+
+    if (index === -1) {
+
+        likedBlogs.push(id);
+
+        button.innerHTML = "♥";
+
+        button.classList.add(
+            "liked"
+        );
+
+        showToast(
+            "❤️ Blog liked!"
+        );
+
+    } else {
+
+        likedBlogs.splice(
+            index,
+            1
+        );
+
+        button.innerHTML = "♡";
+
+        button.classList.remove(
+            "liked"
+        );
+
+        showToast(
+            "Like removed"
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "likedBlogs",
+        JSON.stringify(likedBlogs)
+    );
+
+
+    updateLikeButtons();
+
+}
+
+
+
+/* =====================================================
+   LIKE FROM MODAL
+===================================================== */
+
+function likeFromModal() {
+
+    let button =
+        document.querySelector(
+            '[data-id="' +
+            currentBlogId +
+            '"] .like-btn'
+        );
+
+
+    if (button) {
+
+        likeBlog(
+            button,
+            currentBlogId
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SAVE BLOG
+===================================================== */
+
+function saveBlog(
+    button,
+    id
+) {
+
+    let index =
+        savedBlogs.indexOf(id);
+
+
+    if (index === -1) {
+
+        savedBlogs.push(id);
+
+        button.classList.add(
+            "saved"
+        );
+
+        showToast(
+            "🔖 Blog saved!"
+        );
+
+    } else {
+
+        savedBlogs.splice(
+            index,
+            1
+        );
+
+        button.classList.remove(
+            "saved"
+        );
+
+        showToast(
+            "Blog removed from saved"
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "savedBlogs",
+        JSON.stringify(savedBlogs)
+    );
+
+
+    updateSaveButtons();
+
+}
+
+
+
+/* =====================================================
+   SAVE FROM MODAL
+===================================================== */
+
+function saveFromModal() {
+
+    let button =
+        document.querySelector(
+            '[data-id="' +
+            currentBlogId +
+            '"] .save-btn'
+        );
+
+
+    if (button) {
+
+        saveBlog(
+            button,
+            currentBlogId
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   UPDATE LIKE BUTTONS
+===================================================== */
+
+function updateLikeButtons() {
+
+    document
+        .querySelectorAll(
+            ".blog-card"
+        )
+        .forEach(function(card) {
+
+            let id =
+                card.dataset.id;
+
+            let button =
+                card.querySelector(
+                    ".like-btn"
+                );
+
+
+            if (!button) return;
+
+
+            if (
+                likedBlogs.includes(id)
+            ) {
+
+                button.innerHTML = "♥";
+
+                button.classList.add(
+                    "liked"
+                );
+
+            } else {
+
+                button.innerHTML = "♡";
+
+                button.classList.remove(
+                    "liked"
+                );
+
+            }
+
+        });
+
+}
+
+
+
+/* =====================================================
+   UPDATE SAVE BUTTONS
+===================================================== */
+
+function updateSaveButtons() {
+
+    document
+        .querySelectorAll(
+            ".blog-card"
+        )
+        .forEach(function(card) {
+
+            let id =
+                card.dataset.id;
+
+            let button =
+                card.querySelector(
+                    ".save-btn"
+                );
+
+
+            if (!button) return;
+
+
+            if (
+                savedBlogs.includes(id)
+            ) {
+
+                button.classList.add(
+                    "saved"
+                );
+
+            } else {
+
+                button.classList.remove(
+                    "saved"
+                );
+
+            }
+
+        });
+
+}
+
+
+
+/* =====================================================
+   VIEW NUMBERS
+===================================================== */
+
+function updateViewNumbers() {
+
+    document
+        .querySelectorAll(
+            ".blog-card"
+        )
+        .forEach(function(card) {
+
+            let id =
+                card.dataset.id;
+
+            let number =
+                card.querySelector(
+                    ".view-number"
+                );
+
+
+            if (number) {
+
+                number.innerText =
+                    views[id] || 0;
+
+            }
+
+        });
+
+}
+
+
+
+/* =====================================================
+   TOTAL VIEWS
+===================================================== */
+
+function updateTotalViews() {
+
+    let total = 0;
+
+
+    Object.values(views)
+        .forEach(function(value) {
+
+            total += value;
+
+        });
+
+
+    document.getElementById(
+        "totalViews"
+    ).innerText = total;
+
+}
+
+
+
+/* =====================================================
+   COMMENTS
+===================================================== */
+
+function addComment() {
+
+    let input =
+        document.getElementById(
+            "commentInput"
+        );
+
+
+    let text =
+        input.value.trim();
+
+
+    if (text === "") {
+
+        showToast(
+            "Please write a comment"
+        );
+
+        return;
+
+    }
+
+
+    if (!comments[currentBlogId]) {
+
+        comments[currentBlogId] = [];
+
+    }
+
+
+    comments[currentBlogId].push(
+        text
+    );
+
+
+    localStorage.setItem(
+        "blogComments",
+        JSON.stringify(comments)
+    );
+
+
+    input.value = "";
+
+
+    loadComments(
+        currentBlogId
+    );
+
+
+    showToast(
+        "💬 Comment posted!"
+    );
+
+}
+
+
+
+/* =====================================================
+   LOAD COMMENTS
+===================================================== */
+
+function loadComments(id) {
+
+    let list =
+        document.getElementById(
+            "commentsList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    let blogComments =
+        comments[id] || [];
+
+
+    if (
+        blogComments.length === 0
+    ) {
+
+        list.innerHTML =
+            "<p>No comments yet. Be the first!</p>";
+
+        return;
+
+    }
+
+
+    blogComments.forEach(
+        function(comment) {
+
+            let div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "comment";
+
+
+            div.innerHTML =
+                "<strong>👤 Reader</strong><br>" +
+                comment;
+
+
+            list.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   SAVED BLOGS
+===================================================== */
+
+function showSavedBlogs() {
+
+    let section =
+        document.getElementById(
+            "savedSection"
+        );
+
+
+    let container =
+        document.getElementById(
+            "savedContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        savedBlogs.length === 0
+    ) {
+
+        container.innerHTML =
+            "<p style='text-align:center;'>No saved blogs yet.</p>";
+
+    } else {
+
+        savedBlogs.forEach(
+            function(id) {
+
+                let original =
+                    document.querySelector(
+                        '[data-id="' +
+                        id +
+                        '"]'
+                    );
+
+
+                if (original) {
+
+                    let copy =
+                        original.cloneNode(
+                            true
+                        );
+
+
+                    let button =
+                        copy.querySelector(
+                            ".read-more"
+                        );
+
+
+                    container.appendChild(
+                        copy
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    section.style.display = "block";
+
+
+    section.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================================
+   BLOG OF THE DAY
+===================================================== */
+
+let dailyBlog = {
+
+    id: "tech1",
+
+    title:
+        "Artificial Intelligence in Daily Life",
+
+    category:
+        "Technology",
+
+    content:
+        "Artificial Intelligence is becoming an important part of our daily lives. AI is used in smartphones, voice assistants, recommendation systems and many other applications. It helps people complete tasks faster and provides useful information. As technology develops, AI will continue to influence education, business, communication and entertainment."
+
+};
+
+
+function openDailyBlog() {
+
+    readBlog(
+        dailyBlog.id,
+        dailyBlog.title,
+        dailyBlog.category,
+        dailyBlog.content
+    );
+
+}
+
+
+
+/* =====================================================
+   ADD NEW BLOG
+===================================================== */
+
+function addBlog(event) {
+
+    event.preventDefault();
+
+
+    let title =
+        document.getElementById(
+            "blogTitle"
+        ).value.trim();
+
+
+    let category =
+        document.getElementById(
+            "blogCategory"
+        ).value;
+
+
+    let description =
+        document.getElementById(
+            "blogDescription"
+        ).value.trim();
+
+
+    let id =
+        "user_" +
+        Date.now();
+
+
+    userBlogs.push({
+
+        id: id,
+
+        title: title,
+
+        category: category,
+
+        description: description
+
+    });
+
+
+    localStorage.setItem(
+        "userBlogs",
+        JSON.stringify(userBlogs)
+    );
+
+
+    createBlogCard(
+        id,
+        title,
+        category,
+        description
+    );
+
+
+    document
+        .querySelector(
+            "#add form"
+        )
+        .reset();
+
+
+    showToast(
+        "🎉 Blog published successfully!"
+    );
+
+
+    updateTotalBlogCount();
+
+
+    setTimeout(
+        function() {
+
+            document
+                .querySelector(
+                    '[data-id="' +
+                    id +
+                    '"]'
+                )
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        },
+        300
+    );
+
+}
+
+
+
+/* =====================================================
+   CREATE BLOG CARD
+===================================================== */
+
+function createBlogCard(
+    id,
+    title,
+    category,
+    description
+) {
+
+    let container =
+        document.getElementById(
+            "blogContainer"
+        );
+
+
+    let card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "blog-card";
+
+
+    card.dataset.category =
+        category;
+
+
+    card.dataset.id =
+        id;
+
+
+    let categoryClass =
+        getCategoryClass(
+            category
+        );
+
+
+    card.innerHTML = `
+
+        <div class="blog-image ${categoryClass}">
+            ${category}
+        </div>
+
+        <div class="blog-content">
+
+            <span class="category">
+                ${category}
+            </span>
+
+            <h3>
+                ${title}
+            </h3>
+
+            <p>
+                ${description}
+            </p>
+
+            <div class="blog-meta">
+
+                <span>
+                    ⏱️ 2 min read
+                </span>
+
+                <span>
+                    👁️
+                    <span class="view-number">
+                        0
+                    </span>
+                </span>
+
+            </div>
+
+            <div class="blog-actions">
+
+                <button
+                    class="read-more"
+                    onclick="readBlog(
+                        '${id}',
+                        '${escapeQuotes(title)}',
+                        '${escapeQuotes(category)}',
+                        '${escapeQuotes(description)}'
+                    )">
+
+                    Read More
+
+                </button>
+
+                <div>
+
+                    <button
+                        class="like-btn"
+                        onclick="likeBlog(
+                            this,
+                            '${id}'
+                        )">
+
+                        ♡
+
+                    </button>
+
+                    <button
+                        class="save-btn"
+                        onclick="saveBlog(
+                            this,
+                            '${id}'
+                        )">
+
+                        🔖
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    container.appendChild(
+        card
+    );
+
+}
+
+
+
+/* =====================================================
+   CATEGORY CLASS
+===================================================== */
+
+function getCategoryClass(
+    category
+) {
+
+    let classes = {
+
+        "Technology":
+            "technology",
+
+        "Travel":
+            "travel",
+
+        "Education":
+            "education",
+
+        "Lifestyle":
+            "lifestyle",
+
+        "Food & Cooking":
+            "food",
+
+        "Health & Fitness":
+            "health",
+
+        "Business":
+            "business",
+
+        "Entertainment":
+            "entertainment",
+
+        "Sports":
+            "sports",
+
+        "Photography":
+            "photography"
+
+    };
+
+
+    return (
+        classes[category] ||
+        "technology"
+    );
+
+}
+
+
+
+/* =====================================================
+   ESCAPE QUOTES
+===================================================== */
+
+function escapeQuotes(text) {
+
+    return text
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, " ");
+
+}
+
+
+
+/* =====================================================
+   TOTAL BLOG COUNT
+===================================================== */
+
+function updateTotalBlogCount() {
+
+    let count =
+        document.querySelectorAll(
+            "#blogContainer .blog-card"
+        ).length;
+
+
+    document.getElementById(
+        "totalBlogs"
+    ).innerText =
+        count + "+";
+
+}
+
+
+
+/* =====================================================
+   LOAD USER BLOGS
+===================================================== */
+
+function loadUserBlogs() {
+
+    userBlogs.forEach(
+        function(blog) {
+
+            createBlogCard(
+                blog.id,
+                blog.title,
+                blog.category,
+                blog.description
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+loadUserBlogs();
+
+updateLikeButtons();
+
+updateSaveButtons();
+
+updateViewNumbers();
+
+updateTotalViews();
+
+updateTotalBlogCount();
+
+
+</script>
+
+
+</body>
+
+</html>
